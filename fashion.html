@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATELIER VOGUE | Luxury Haute Couture</title>
+    <!-- Google Fonts for Ultra-Luxury Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS RESET & VARIABLES */
+        :root {
+            --gold: #c5a880;
+            --dark: #111111;
+            --light: #ffffff;
+            --grey: #f9f9f9;
+            --border: #e5e5e5;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            background-color: var(--light); 
+            color: var(--dark); 
+            font-family: 'Montserrat', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* PREMIUM HEADER & NAVIGATION */
+        header {
+            background: var(--light);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 5%;
+        }
+        .nav-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        /* Desktop specific spacing via flex direction row change */
+        @media (min-width: 768px) {
+            .nav-container {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 10px 0;
+            }
+        }
+        .brand-logo {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            font-weight: 400;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--dark);
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap; /* मोबाइल पर मेनू टूटेगा नहीं, सही से रैप होगा */
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 5px 0;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        nav a:hover, nav a.active {
+            color: var(--gold);
+            border-bottom: 1px solid var(--gold);
+        }
+
+        /* MULTI-PAGE VIEW CONTROLLER */
+        .page-section {
+            display: none; /* शुरुआत में सारे पेज छिपे रहेंगे */
+        }
+        .page-section.active-page {
+            display: block; /* सिर्फ एक्टिव पेज दिखेगा */
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* PAGE 1: HOME - HERO SPLIT BANNER */
+        .hero-section {
+            display: flex;
+            flex-direction: column; /* मोबाइल पर ऊपर-नीचे */
+            min-height: calc(100vh - 90px);
+            background: var(--grey);
+        }
+        @media (min-width: 768px) {
+            .hero-section {
+                flex-direction: row; /* लैपटॉप पर आमने-सामने */
+            }
+        }
+        .hero-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 8%;
+            text-align: center;
+        }
+        @media (min-width: 768px) {
+            .hero-text { text-align: left; padding: 0 5% 0 8%; }
+        }
+        .hero-text h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 32px;
+            line-height: 1.2;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        @media (min-width: 1024px) { .hero-text h1 { font-size: 48px; } }
+        .hero-text p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.7;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        .btn-luxury {
+            align-self: center;
+            padding: 14px 40px;
+            background: var(--dark);
+            color: var(--light);
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        @media (min-width: 768px) { .btn-luxury { align-self: flex-start; } }
+        .btn-luxury:hover { background: var(--gold); transform: translateY(-2px); }
+        
+        /* मोबाइल और लैपटॉप दोनों पर परफेक्ट दिखने वाली इमेज */
+        .hero-img {
+            flex: 1;
+            min-height: 350px;
+            background: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800') center/cover no-repeat;
+        }
+        @media (min-width: 768px) { .hero-img { min-height: auto; } }
+
+        /* PAGE 2: SHOP - ADVANCED PRODUCT GRID */
+        .shop-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 5%;
+        }
+        .section-title {
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-size: 26px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 1px;
+            background: var(--gold);
+            margin: 15px auto 0;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* मोबाइल पर 1 कॉलम */
+            gap: 30px;
+        }
+       @media (min-width: 480px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 768px) { .product-grid { grid-template-columns: repeat(3, 1fr); } } 
+        .product-card {
+            background: var(--light);
+            border: 1px solid #f0f0f0;
+            padding: 12px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border-color: var(--gold);
+        }
+        .img-wrap {
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            background: var(--grey);
+        }
+        .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .product-card:hover .img-wrap img { transform: scale(1.05); }
+        .p-title { font-size: 13px; font-weight: 500; letter-spacing: 1px; margin-bottom: 6px; text-transform: uppercase; }
+        .p-price { font-size: 14px; color: var(--gold); font-weight: 600; letter-spacing: 1px; margin-bottom: 12px; }
+        .btn-add-cart {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid var(--dark);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-add-cart:hover { background: var(--dark); color: var(--light); }
+
+        /* PAGE 3: CONTACT - PREMIUM FORM */
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 60px 5%;
+        }
+        .contact-form {
+            background: var(--grey);
+            padding: 30px 25px;
+            border: 1px solid var(--border);
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            background: var(--light);
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .form-control:focus { border-color: var(--gold); }
+        textarea.form-control { height: 120px; resize: none; }
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--dark);
+            color: var(--light);
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-submit:hover { background: var(--gold); }
+
+        /* LUXURY FOOTER */
+        footer {
+            background: var(--dark);
+            color: #888;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-top: 1px solid #222;
+            margin-top: 60px;
+        }
+        footer p { margin-bottom: 10px; }
+        footer span { color: var(--light); }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER & MULTI-PAGE NAVIGATION -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="brand-logo" onclick="switchPage('home')">ATELIER VOGUE</a>
+            <nav>
+                <a id="nav-home" class="active" onclick="switchPage('home')">Home</a>
+                <a id="nav-shop" onclick="switchPage('shop')">Collection</a>
+                <a id="nav-contact" onclick="switchPage('contact')">Inquire</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MULTI-PAGE CONTAINER -->
+    <main>
+        
+        <!-- MULTI-PAGE: 1. HOME PAGE -->
+        <section id="page-home" class="page-section active-page">
+            <div class="hero-section">
+                <div class="hero-text">
+                    <h1>The Modern<br>Silhouette</h1>
+                    <p>Experience a meticulous study of minimalist structure and high-end elegance. Curated for international runways and designed for the discerning individual.</p>
+                    <button class="btn-luxury" onclick="switchPage('shop')">Explore Shop</button>
+                </div>
+                <!-- यहाँ मैंने रिस्पॉन्सिव इमेज यूज़ की है जो मोबाइल पर कभी गायब नहीं होगी -->
+                <div class="hero-img"></div>
+            </div>
+        </section>
+
+        <!-- MULTI-PAGE: 2. SHOP PAGE (COLLECTION) -->
+        <section id="page-shop" class="page-section">
+            <div class="shop-container">
+                <h2 class="section-title">Runway Ready-To-Wear</h2>
+                <div class="product-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card">
+                        <div class="img-wrap"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=500" alt="Trench Coat"></div>
+                        <div class="p-title">Monochrome Trench Coat</div>
+                        <div class="p-price">$2,100.00</div>
+                        <button class="btn-add-cart" onclick="alert('Item Added to Luxury Bag')">Add To Bag</button>
+                    </div>
+                    <!-- Product 2 -->
+                    <div class="product-card">
+                        <div class="img-wrap"><img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=500" alt="Silk Dress"></div>
+                        <div class="p-title">Minimalist Silk Dress</div>
+                        <div class="p-price">$3,400.00</div>
+                        <button class="btn-add-cart" onclick="alert('Item Added to Luxury Bag')">Add To Bag</button>
+                    </div>
+                    <!-- Product 3 -->
+                    <div class="product-card">
+                        <div class="img-wrap"><img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=500" alt="Blazer"></div>
+                        <div class="p-title">Oversized Luxury Blazer</div>
+                        <div class="p-price">$1,850.00</div>
+                        <button class="btn-add-cart" onclick="alert('Item Added to Luxury Bag')">Add To Bag</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MULTI-PAGE: 3. CONTACT PAGE -->
+        <section id="page-contact" class="page-section">
+            <div class="contact-container">
+                <h2 class="section-title">Bespoke Inquiries</h2>
+                <div class="contact-form">
+                    <form onsubmit="event.preventDefault(); alert('Thank you. Our concierge team will contact you shortly.');">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" class="form-control" required placeholder="e.g., Alexandra Vance">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" class="form-control" required placeholder="name@luxury.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Message</label>
+                            <textarea class="form-control" required placeholder="Inquire about custom sizing or collection availability..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER WITH WHITE-LABEL BRANDING -->
+    <footer>
+        <p>&copy; 2026 <span>ATELIER VOGUE</span>. All Rights Reserved.</p>
+        <p style="font-size: 9px; color: #555; margin-top: 5px;">Maison Paris & New York — Premium Turnkey Acquisition</p>
+    </footer>
+
+    <!-- MULTI-PAGE CONTROLLER JAVASCRIPT -->
+    <script>
+        function switchPage(pageId) {
+            // 1. सारे पेजेस को छुपाओ
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => section.classList.remove('active-page'));
+            
+            // 2. सारे नेविगेशन लिंक्स से 'active' क्लास हटाओ
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            // 3. जो पेज चुना गया है सिर्फ उसे दिखाओ
+            document.getElementById('page-' + pageId).classList.add('active-page');
+            
+            // 4. चुने गए नेविगेशन लिंक को चमकाओ (Gold color)
+            document.getElementById('nav-' + pageId).classList.add('active');
+            
+            // 5. पेज बदलने पर स्क्रीन अपने आप ऊपर स्क्रॉल हो जाएगी
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
